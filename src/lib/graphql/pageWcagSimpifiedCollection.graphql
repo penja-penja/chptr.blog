@@ -1,0 +1,7 @@
+query pageWcagSimplifiedCollection($locale: String, $preview: Boolean) {
+  pageWcagSimplifiedCollection(limit: 100, locale: $locale, preview: $preview) {
+    items {
+      ...PageWcagSimplifiedFields
+    }
+  }
+}

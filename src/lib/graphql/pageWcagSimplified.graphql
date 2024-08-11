@@ -1,0 +1,32 @@
+fragment PageWcagSimplifiedFields on PageWcagSimplified {
+  __typename
+  sys {
+    id
+    spaceId
+  }
+  contentfulMetadata {
+    tags {
+      id
+      name
+    }
+  }
+  internalName
+  seoFields {
+    ...SeoFields
+  }
+  slug
+  wcagRulesCollection {
+    items {
+      ...WCAGRuleFields
+    }
+  }
+}
+
+query pageWcagSimplified($locale: String, $preview: Boolean) {
+  pageWcagSimplifiedCollection(limit: 1, locale: $locale, preview: $preview) {
+    items {
+      ...PageWcagSimplifiedFields
+    }
+  }
+}
+

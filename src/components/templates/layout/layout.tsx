@@ -11,7 +11,11 @@ export const Layout = ({ children }: LayoutPropsInterface) => {
   return (
     <>
       <Header />
+
+      <div className="mb-16 border-t border-gray200" />
+
       {children}
+
       <Footer />
     </>
   );

@@ -5,16 +5,18 @@ import Link from 'next/link';
 
 import { getServerSideTranslations } from './utils/get-serverside-translations';
 
-import { ArticleHero, ArticleTileGrid } from '@src/components/features/article';
+import { ArticleHero, ArticleTileGrid, ArticleTile } from '@src/components/features/article';
 import { SeoFields } from '@src/components/features/seo';
 import { Container } from '@src/components/shared/container';
-import { PageBlogPostOrder } from '@src/lib/__generated/sdk';
+import { PageBlogPostFieldsFragment, PageBlogPostOrder } from '@src/lib/__generated/sdk';
 import { client, previewClient } from '@src/lib/client';
 import { revalidateDuration } from '@src/pages/utils/constants';
+import { Key } from 'react';
 
 const Page = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { t } = useTranslation();
 
+  console.log('landing');
   const page = useContentfulLiveUpdates(props.page);
   const posts = useContentfulLiveUpdates(props.posts);
 
@@ -23,11 +25,11 @@ const Page = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
       {page.seoFields && <SeoFields {...page.seoFields} />}
-      <Container>
+      {/* <Container>
         <Link href={`/${page.featuredBlogPost.slug}`}>
           <ArticleHero article={page.featuredBlogPost} />
         </Link>
-      </Container>
+      </Container> */}
 
       {/* Tutorial: contentful-and-the-starter-template.md */}
       {/* Uncomment the line below to make the Greeting field available to render */}
@@ -35,10 +37,18 @@ const Page = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
       {/*  <div className="my-5 bg-colorTextLightest p-5 text-colorBlueLightest">{page.greeting}</div>*/}
       {/*</Container>*/}
 
-      <Container className="my-8  md:mb-10 lg:mb-16">
-        <h2 className="mb-4 md:mb-6">{t('landingPage.latestArticles')}</h2>
-        <ArticleTileGrid className="md:grid-cols-2 lg:grid-cols-3" articles={posts} />
+      <Container className="my-8 md:mb-10 lg:mb-16">
+        {/* <h2 className="mb-4 md:mb-6">{t('landingPage.latestArticles')}</h2>
+        <ArticleTileGrid className="md:grid-cols-2 lg:grid-cols-3" articles={posts} /> */}
+        {posts.map((article: PageBlogPostFieldsFragment, index: Key | null | undefined) => {
+          return article ? (
+            <article className="mt-20">
+              <ArticleTile key={index} article={article} />
+            </article>
+          ) : null;
+        })}
       </Container>
+      <div>test</div>
     </>
   );
 };

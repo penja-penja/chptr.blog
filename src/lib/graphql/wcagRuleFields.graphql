@@ -1,0 +1,24 @@
+fragment WCAGRuleFields on ComponentWcagRule {
+  __typename
+  sys {
+    id
+  }
+  contentfulMetadata {
+    tags {
+      id
+      name
+    }
+  }
+  version
+  level
+  principle
+  guideline
+  successCriteria
+  goal
+  how {
+    json
+  }
+  techniques {
+    json
+  }
+}

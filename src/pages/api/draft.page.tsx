@@ -32,7 +32,7 @@ export default async (req, res) => {
   }
 
   // Check for a slug, if no slug is passed we assume we need to redirect to the root
-  if (slug) {
+  if (slug !== 'wcag-simplified') {
     try {
       const blogPageData = await previewClient.pageBlogPost({
         slug,
@@ -53,6 +53,26 @@ export default async (req, res) => {
       res.redirect(`/${locale ? `${locale}/` : ''}${blogPost?.slug}`);
     } catch {
       return res.status(401).json({ message: 'Invalid slug' });
+    }
+  } else if (slug === 'wcag-simplified') {
+    console.log('simplified');
+    try {
+      const wcagSimplifiedPageData = await previewClient.pageWcagSimplified({
+        locale,
+        preview: true,
+      });
+
+      if (!wcagSimplifiedPageData) {
+        throw Error();
+      }
+
+      // Enable draft mode by setting the cookies
+      enableDraftMode(res);
+
+      // Redirect to the path from the fetched post
+      res.redirect(`/${locale ? `${locale}/` : ''}wcag-simplified`);
+    } catch {
+      return res.status(401).json({ message: 'Invalid} slug' });
     }
   } else {
     try {
